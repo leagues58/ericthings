@@ -35,7 +35,14 @@ function readMDXFile(filePath) {
   return parseFrontmatter(rawContent)
 }
 
-function getMDXData(dir) {
+type ArticleData = {
+  metadata: Metadata,
+  slug: string;
+  content: string,
+  articleType: ArticleType
+}
+
+function getMDXData(dir, articleType: ArticleType) {
   let mdxFiles = getMDXFiles(dir)
   return mdxFiles.map((file) => {
     let { metadata, content } = readMDXFile(path.join(dir, file))
@@ -45,12 +52,26 @@ function getMDXData(dir) {
       metadata,
       slug,
       content,
-    }
+      articleType
+    } as ArticleData
   })
 }
 
-export function getBlogPosts() {
-  return getMDXData(path.join(process.cwd(), 'app', 'blog', 'posts'))
+export enum ArticleType {
+  Auto = 'auto',
+  Tech = 'tech',
+  All = 'all'
+}
+
+export function getArticles(articleType: ArticleType) {
+  let articles: ArticleData[] = [];
+  if (articleType === ArticleType.All) {
+    articles.push(...getMDXData(path.join(process.cwd(), 'app', 'articles', ArticleType.Auto), ArticleType.Auto));
+    articles.push(...getMDXData(path.join(process.cwd(), 'app', 'articles', ArticleType.Tech), ArticleType.Tech))
+    return articles;
+  }
+  return getMDXData(path.join(process.cwd(), 'app', 'articles', articleType), articleType);
+
 }
 
 export function formatDate(date: string, includeRelative = false) {
