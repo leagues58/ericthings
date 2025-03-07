@@ -1,4 +1,5 @@
-import { BlogPosts } from 'app/components/posts'
+import { ArticleList } from 'app/components/posts'
+import { ArticleType } from './articles/utils'
 
 export default function Page() {
   return (
@@ -7,14 +8,13 @@ export default function Page() {
         My Portfolio
       </h1>
       <p className="mb-4">
-        {`I'm a Vim enthusiast and tab advocate, finding unmatched efficiency in
-        Vim's keystroke commands and tabs' flexibility for personal viewing
-        preferences. This extends to my support for static typing, where its
-        early error detection ensures cleaner code, and my preference for dark
-        mode, which eases long coding sessions by reducing eye strain.`}
+       My name is Eric Reeves. I'm a software developer and I spend most of my time thinking about cars.
+       <br/>I also like to think up ways to use software to improve my life, but I usually give up when I realize
+       that the true ideal is to have no software at all.
+       <br/><br/>Life would be better on a farm.
       </p>
       <div className="my-8">
-        <BlogPosts />
+        <ArticleList articleType={ArticleType.All} />
       </div>
     </section>
   )
