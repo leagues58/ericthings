@@ -5,7 +5,7 @@ export const ArticleList = ({articleType}: {articleType: ArticleType}) => {
   let allArticles = getArticles(articleType)
 
   return (
-    <div>
+    <div className='p-5'>
       {allArticles
         .sort((a, b) => {
           if (

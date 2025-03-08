@@ -2,16 +2,68 @@
 title: 'Live Plane Tracker'
 publishedAt: '2025-03-07'
 summary: 'Summary'
+repoUrl: https://github.com/leagues58/ScaleTimer
 ---
 
+I briefly lived in D.C., and because most of downtown Washington is in the flightpath for Washington National Airport, a plane would 
+pass over my apartment approximately every 2 minutes.  After hearing the distant rumbles of planes for a few days, I started to wonder
+where those planes were headed to or coming from. 
 
-Plane Tracker
+I frequently use [FlightAware](https://www.flightaware.com/) to track planes a family member is on, but they also have a (paid) API which
+allows you to, among other things, fetch a list of all planes within specified GPS coordinates. 
+
+I spent some time playing around with the API using Postman, and I discovered that the FlightAware data is ~20 seconds delayed from realtime
+(which is perfectly reasonable).  I adjusted my GPS coordinates to bias them slightly closer to the airport and less directly overhead of me, 
+and soon I was able to accurately id a plane as it passed overhead.
+
+For this project, I wrote a small Express API which can query FlightAware, and then a React app which makes requests against 
+my Express API. 
+
+The server code:
 ```ts
-function greet(name: string): string {
-  return `Hello, ${name}!`
-}
+const app = express();
 
-// This will throw an error at compile time, preventing potential runtime issues.
-let message: string = greet(123)
+app.get("/api/checkForFlight", async (req, res) => {
+    let flights = await checkForFlight();
+    res.json(flights);
+});
+
+app.get("/api/getFlightInfo", async (req, res) => {
+    if (req.query.ident) {
+        let flight = await getFlightInfo(req.query.ident);
+        res.json(flight);
+    }
+
+    res.status(204);
+});
+
+// All other GET requests not handled before will return the React app
+app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
+});
+  
+app.listen(PORT, () => {
+    console.log(`Server listening on ${PORT}`);
+});
 ```
+
+
+I needed the separate backend because I couldn't expose my Flight Aware API keys, and at the time I had plans for 
+publishing the app on the Internet. As it turned out, the app only ever ran on my local machine, so I probably could have skipped
+the separate backend. 
+
+Here is a video showing the app working in DC.
+
+<video width="320" height="240" controls>
+  <source src="/video/plane.mp4" type="video/mp4" />
+  Your browser does not support the video tag.
+</video>
+
+Unfortunately, the FlightAware API calls were prohibitively expensive, so I couldn't just leave the program running. It was more of a one-off party
+trick than anything else, but still pretty neat.
+
+
+
+
+
 
