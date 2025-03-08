@@ -9,7 +9,7 @@ export default function Page() {
       <div className="my-8 flex flex-row">
         <div className={"px-10"}>
             This is where stuff about me will go!
-            I'm difficult to get a hold of, but please try my pidgeon service if email doesn't work.
+            I'm difficult to get a hold of, but please try my pigeon service if email doesn't work.
         </div>
         <Image className={"px-10"} src={'/img/me.jpg'} alt="a picture of me" width={400} height={400}/>
       </div>
