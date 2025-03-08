@@ -1,3 +1,4 @@
+import { ArticleList } from 'app/components/posts'
 import fs from 'fs'
 import path from 'path'
 
@@ -5,7 +6,8 @@ type Metadata = {
   title: string
   publishedAt: string
   summary: string
-  image?: string
+  image?: string,
+  repoUrl?: string
 }
 
 function parseFrontmatter(fileContent: string) {
@@ -21,7 +23,8 @@ function parseFrontmatter(fileContent: string) {
     let value = valueArr.join(': ').trim()
     value = value.replace(/^['"](.*)['"]$/, '$1') // Remove quotes
     metadata[key.trim() as keyof Metadata] = value
-  })
+  });
+
 
   return { metadata: metadata as Metadata, content }
 }
@@ -39,14 +42,15 @@ type ArticleData = {
   metadata: Metadata,
   slug: string;
   content: string,
-  articleType: ArticleType
+  articleType: ArticleType,
+  repoUrl: string
 }
 
 function getMDXData(dir, articleType: ArticleType) {
-  let mdxFiles = getMDXFiles(dir)
+  let mdxFiles = getMDXFiles(dir);
   return mdxFiles.map((file) => {
-    let { metadata, content } = readMDXFile(path.join(dir, file))
-    let slug = path.basename(file, path.extname(file))
+    let { metadata, content } = readMDXFile(path.join(dir, file));
+    let slug = path.basename(file, path.extname(file));
 
     return {
       metadata,
@@ -63,7 +67,7 @@ export enum ArticleType {
   All = 'all'
 }
 
-export function getArticles(articleType: ArticleType) {
+export function getArticles(articleType=ArticleType.All) {
   let articles: ArticleData[] = [];
   if (articleType === ArticleType.All) {
     articles.push(...getMDXData(path.join(process.cwd(), 'app', 'articles', ArticleType.Auto), ArticleType.Auto));

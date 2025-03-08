@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import { CustomMDX } from 'app/components/mdx'
 import { ArticleType, formatDate, getArticles } from 'app/articles/utils'
 import { baseUrl } from 'app/sitemap'
+import ViewSource from 'app/components/viewSource'
 
 export async function generateStaticParams() {
   let posts = getArticles(ArticleType.All)
@@ -89,6 +90,9 @@ export default function Blog({ params }) {
         <p className="text-sm text-neutral-600 dark:text-neutral-400">
           {formatDate(post.metadata.publishedAt)}
         </p>
+      </div>
+      <div>
+        <ViewSource url={post.metadata.repoUrl}/>
       </div>
       <article className="prose">
         <CustomMDX source={post.content} />
