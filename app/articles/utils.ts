@@ -1,4 +1,3 @@
-import { ArticleList } from 'app/components/posts'
 import fs from 'fs'
 import path from 'path'
 
@@ -42,8 +41,7 @@ type ArticleData = {
   metadata: Metadata,
   slug: string;
   content: string,
-  articleType: ArticleType,
-  repoUrl: string
+  articleType: ArticleType
 }
 
 function getMDXData(dir, articleType: ArticleType) {

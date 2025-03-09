@@ -1,6 +1,6 @@
 import { ArrowIcon } from "./arrowIcon"
 
-const ViewSource = ({url=''}: {url: string}) => {
+const ViewSource = ({url=''}: {url: string|undefined}) => {
     if (!url) {
         return <></>
     }
