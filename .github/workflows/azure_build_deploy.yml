@@ -1,5 +1,8 @@
-on: [push]
-name: Linux_Container_Workflow
+on:
+  push:
+    branches:
+      - master
+name: Build_and_Deploy_Azure
 
 jobs:
     build-and-deploy:
