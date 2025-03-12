@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-      - master
+      - main
 name: Build_and_Deploy_Azure
 
 jobs:
