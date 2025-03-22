@@ -23,10 +23,12 @@ jobs:
             login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
             username: ${{ secrets.REGISTRY_USERNAME }}
             password: ${{ secrets.REGISTRY_PASSWORD }}
+          env:
+            AMBIENT_WEATHER_API_KEY: ${{ secrets.AMBIENT_WEATHER_API_KEY }}
+            AMBIENT_WEATHER_APPLICATION_KEY: ${{ secrets.AMBIENT_WEATHER_APPLICATION_KEY }}
         - run: |
             docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/ericthings:${{ github.sha }}
             docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/ericthings:${{ github.sha }}
-
 
         - name: 'Deploy to Azure App Service'
           uses: azure/webapps-deploy@v2
