@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 export async function GET(request: Request) {
   let apiKey = process.env.AMBIENT_WEATHER_API_KEY;
   let applicationKey = process.env.AMBIENT_WEATHER_APPLICATION_KEY;
